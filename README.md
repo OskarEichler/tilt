@@ -34,6 +34,7 @@ Support for these template engines is included with Tilt:
 | {Erubi}[rdoc-ref:lib/tilt/erubi.rb]                 | .erb, .rhtml, .erubi    | erubi                          |
 | {Etanni}[rdoc-ref:lib/tilt/etanni.rb]               | .ern, .etanni           | none                           |
 | {Haml}[rdoc-ref:lib/tilt/haml.rb]                   | .haml                   | haml                           |
+| {Herb}[rdoc-ref:lib/tilt/herb.rb]                   | .herb, .html.erb        | herb                           |
 | {Kramdown}[rdoc-ref:lib/tilt/kramdown.rb]           | .markdown, .mkd, .md    | kramdown                       |
 | {Liquid}[rdoc-ref:lib/tilt/liquid.rb]               | .liquid                 | liquid                         |
 | {LiveScript}[rdoc-ref:lib/tilt/livescript.rb]       | .ls                     | livescript (+ javascript)      |
@@ -396,7 +397,7 @@ it on subsequent template invocations. Benchmarks show this yields a 5x-10x
 performance increase over evaluating the Ruby source on each invocation.
 
 Template compilation is currently supported for these template engines:
-StringTemplate, ERB, Erubi, Etanni, Haml, Nokogiri, Builder, CSV,
+StringTemplate, ERB, Erubi, Herb, Etanni, Haml, Nokogiri, Builder, CSV,
 Prawn, and Yajl.
 
 LICENSE

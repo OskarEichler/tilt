@@ -1,3 +1,7 @@
+## master
+
+* Add Herb template, registered for .herb and .html.erb (marcoroth) (#30)
+
 ## 2.8.0 (2026-07-06)
 
 * Support rdoc 8 in the rdoc template (jeremyevans)
