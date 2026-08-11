@@ -6,7 +6,8 @@ checked_describe 'tilt/commonmarker' do
     assert_includes [
       "<h1>Hello World!</h1>\n",
       "<h1><a href=\"#hello-world\" aria-hidden=\"true\" class=\"anchor\" id=\"hello-world\"></a>Hello World!</h1>\n",
-      "<h1><a inert href=\"#hello-world\" aria-hidden=\"true\" class=\"anchor\" id=\"hello-world\"></a>Hello World!</h1>\n"
+      "<h1><a inert href=\"#hello-world\" aria-hidden=\"true\" class=\"anchor\" id=\"hello-world\"></a>Hello World!</h1>\n",
+      "<h1 id=\"hello-world\">Hello World!<a href=\"#hello-world\" aria-label=\"Link to heading 'Hello World!'\" data-heading-content=\"Hello World!\" class=\"anchor\"></a></h1>\n"
     ], template.render
   end
 
@@ -16,7 +17,8 @@ checked_describe 'tilt/commonmarker' do
       assert_includes [
         "<h1>Hello World!</h1>\n",
         "<h1><a href=\"#hello-world\" aria-hidden=\"true\" class=\"anchor\" id=\"hello-world\"></a>Hello World!</h1>\n",
-        "<h1><a inert href=\"#hello-world\" aria-hidden=\"true\" class=\"anchor\" id=\"hello-world\"></a>Hello World!</h1>\n"
+        "<h1><a inert href=\"#hello-world\" aria-hidden=\"true\" class=\"anchor\" id=\"hello-world\"></a>Hello World!</h1>\n",
+        "<h1 id=\"hello-world\">Hello World!<a href=\"#hello-world\" aria-label=\"Link to heading 'Hello World!'\" data-heading-content=\"Hello World!\" class=\"anchor\"></a></h1>\n"
       ], template.render
     end
   end
@@ -90,9 +92,7 @@ EXPECTED_HTML
       template = Tilt::CommonMarkerTemplate.new(header_ids: "prefix-") do |t|
         "# Foo"
       end
-      assert_match(<<HTML, template.render.sub(" inert", ""))
-<h1><a href="#foo" aria-hidden="true" class="anchor" id="prefix-foo"></a>Foo</h1>
-HTML
+      assert_match(/ href="#foo".* id="prefix-foo"| id="prefix-foo".* href="#foo"/, template.render.sub(" inert", ""))
     end
   end
 end
