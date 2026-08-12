@@ -17,6 +17,10 @@ END
     assert_equal Tilt::ErubiTemplate, Tilt['test.html.erubi']
   end
 
+  it "registered for '.html.erb' files" do
+    assert_equal Tilt::ErubiTemplate, Tilt['test.html.erb']
+  end if RUBY_VERSION < "3.2"
+
   it "registered above ERB" do
     %w[erb rhtml].each do |ext|
       lazy = Tilt.lazy_map[ext]

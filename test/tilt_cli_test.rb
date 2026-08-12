@@ -40,7 +40,7 @@ describe 'bin/tilt' do
     exit_code, stdout, stderr = tilt('-l')
     assert_equal 0, exit_code
     assert_empty stderr
-    assert_includes stdout, "\nERB                  erb, rhtml\n"
+    assert_includes stdout, "\nERB                  erb, html.erb, rhtml\n"
   end
 
   it "should show error message for invalid implicit engine" do
