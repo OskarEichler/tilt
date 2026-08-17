@@ -1,4 +1,4 @@
-## master
+## 2.9.0 (2026-08-17)
 
 * Add Herb template, registered for .herb and .html.erb (marcoroth) (#30)
 
