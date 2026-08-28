@@ -367,7 +367,9 @@ module Tilt
     # We use the second bug in order to resolve the first bug.
 
     def constant_defined?(name)
-      name.split('::').inject(Object) do |scope, n|
+      name = name.sub(/\A::/, '')
+      raise NameError, "wrong constant name #{name}" if name.empty?
+      name.split('::', -1).inject(Object) do |scope, n|
         return false if scope.autoload?(n) || !scope.const_defined?(n)
         scope.const_get(n)
       end
