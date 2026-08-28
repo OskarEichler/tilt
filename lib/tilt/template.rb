@@ -196,7 +196,7 @@ module Tilt
           key = scope_class
         end
       elsif @scope_class
-        key = locals_keys.dup.freeze
+        key = locals_keys
       else
         key = [scope_class, locals_keys].freeze
       end
@@ -208,6 +208,10 @@ module Tilt
       end
       meth = compile_template_method(locals_keys, scope_class)
       LOCK.synchronize do
+        unless @fixed_locals
+          keys = locals_keys.map {|k| k.is_a?(String) ? k.dup.freeze : k}.freeze
+          key = @scope_class ? keys : [scope_class, keys].freeze
+        end
         @compiled_method[key] = meth
       end
       meth
