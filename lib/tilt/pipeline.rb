@@ -8,11 +8,11 @@ module Tilt
     def prepare
       @pipeline = self.class::TEMPLATES.inject(proc{|*| data}) do |data, (klass, ext, options)|
         proc do |s,l,&sb|
-          options = options
+          render_options = options
           if ext_opts = @options[ext]
-            options = options.merge(ext_opts)
+            render_options = render_options.merge(ext_opts)
           end
-          klass.new(file, line, options, &proc{|*| data.call(s, l, &sb)}).render(s, l, &sb)
+          klass.new(file, line, render_options, &proc{|*| data.call(s, l, &sb)}).render(s, l, &sb)
         end
       end
     end
