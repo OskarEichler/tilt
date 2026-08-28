@@ -156,7 +156,7 @@ module Tilt
       lazy.each do |pattern, class_names|
         next if templates[pattern]
         class_names.each do |class_name|
-          if template_class = constant_defined?(class_name)
+          if (template_class = constant_defined?(class_name))
             templates[pattern] = template_class
             break
           end
