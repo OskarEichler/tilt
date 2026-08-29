@@ -366,22 +366,21 @@ module Tilt
     end
 
     def local_extraction(local_keys)
-      assignments = local_keys.map do |k|
+      assignments = []
+      locals_assignment = nil
+      local_keys.each do |k|
         if k.to_s =~ /\A[a-z_][a-zA-Z_0-9]*\z/
-          "#{k} = locals[#{k.inspect}]"
+          assignment = "#{k} = locals[#{k.inspect}]"
+          if k.to_s == 'locals'
+            locals_assignment = assignment
+          else
+            assignments << assignment
+          end
         else
           raise "invalid locals key: #{k.inspect} (keys must be variable names)"
         end
       end
-
-      s = "locals = locals[:locals]"
-      if assignments.delete(s)
-        # If there is a locals key itself named <tt>locals</tt>, delete it from the ordered keys so we can
-        # assign it last. This is important because the assignment of all other locals depends on the
-        # <tt>locals</tt> local variable still matching the <tt>locals</tt> method argument given to the method
-        # created in <tt>#compile_template_method</tt>.
-        assignments << s
-      end
+      assignments << locals_assignment if locals_assignment
 
       assignments.join("\n")
     end
