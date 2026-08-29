@@ -43,7 +43,7 @@ module Tilt
         path = File.absolute_path(eval_file)
         path = '/' + path unless path.start_with?('/')
         opts = @options.dup
-        opts[:url] = ::URI::File.build([nil, ::URI::DEFAULT_PARSER.escape(path)]).to_s
+        opts[:url] = ::URI::File.build([nil, ::URI::DEFAULT_PARSER.escape(path, /[^a-zA-Z0-9\-._~!$&'()*+,;=:@\/]/)]).to_s
         opts[:syntax] = :indented
         opts.delete_if{|k| !ALLOWED_KEYS.include?(k)} if ALLOWED_KEYS
         opts

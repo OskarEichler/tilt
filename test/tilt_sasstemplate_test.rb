@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'tmpdir'
 
 checked_describe 'tilt/sass' do
   it "is registered for '.sass' files" do
@@ -31,5 +32,14 @@ checked_describe 'tilt/sass' do
   it "compiles and evaluates the scss template on #render with unsupported options" do
     template = Tilt::ScssTemplate.new({ style: :compressed, outvar: '@a' }) { |t| "#main {\n  background-color: #0000f1;\n}" }
     3.times { assert_equal "#main{background-color:#0000f1}", template.render.chomp }
+  end
+
+  it "escapes reserved characters in file URL paths" do
+    Dir.mktmpdir('tilt-sass') do |dir|
+      path = File.join(dir, 'question?mark.scss')
+      File.write(path, "#main { color: red; }")
+
+      assert_match '#main', Tilt::ScssTemplate.new(path).render
+    end
   end
 end
