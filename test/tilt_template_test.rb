@@ -196,6 +196,17 @@ describe "tilt/template" do
     assert_equal 'Hey', ary.z({})
   end
 
+  it "owns compiled method cache keys" do
+    inst = _SourceGeneratingMockTemplate.new { |t| 'Hey #{a}' }
+    keys = ['a']
+    method = inst.compiled_method(keys, Object)
+
+    keys.first.replace('b')
+    keys << 'c'
+
+    assert_same method, inst.compiled_method(['a'], Object)
+  end
+
   it "template_source with nil locals" do
     inst = _SourceGeneratingMockTemplate.new { |t| 'Hey' }
     assert_equal 'Hey', inst.render(Object.new, nil)
