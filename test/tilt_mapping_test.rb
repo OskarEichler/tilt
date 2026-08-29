@@ -273,8 +273,13 @@ describe 'Tilt::FinalizedMapping' do
     mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'explicit')
     mapping.register(_Stub, 'explicit')
 
+    assert_equal Tilt::StringTemplate, mapping['lazy']
+    assert_equal _Stub, mapping['explicit']
+
     finalized = mapping.finalized
 
+    assert_equal Tilt::StringTemplate, mapping['lazy']
+    assert_equal _Stub, mapping['explicit']
     assert_equal Tilt::StringTemplate, finalized['lazy']
     assert_equal _Stub, finalized['explicit']
   end

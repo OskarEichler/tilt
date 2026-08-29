@@ -150,20 +150,7 @@ module Tilt
     # not attempt to load additional files (useful when restricting
     # file system access after template libraries in use are loaded).
     def finalized
-      templates, lazy = LOCK.synchronize do
-        [@template_map.dup, @lazy_map.map {|pattern, classes| [pattern, classes.map(&:first)]}]
-      end
-      lazy.each do |pattern, class_names|
-        next if templates[pattern]
-        class_names.each do |class_name|
-          if (template_class = constant_defined?(class_name))
-            templates[pattern] = template_class
-            break
-          end
-        end
-      end
-
-      FinalizedMapping.new(templates.freeze)
+      dup.finalized!
     end
 
     # Registers a lazy template implementation by file extension. You
@@ -303,6 +290,19 @@ module Tilt
       end
       res.uniq!
       res
+    end
+
+    protected
+
+    # Internals of finalized
+    def finalized!
+      @lazy_map.each do |pattern, classes|
+        unless @template_map[pattern]
+          register_defined_classes(classes.map(&:first), pattern)
+        end
+      end
+
+      FinalizedMapping.new(@template_map.freeze)
     end
 
     private
