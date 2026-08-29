@@ -198,7 +198,7 @@ describe "tilt/template" do
 
   it "owns compiled method cache keys" do
     inst = _SourceGeneratingMockTemplate.new { |t| 'Hey #{a}' }
-    keys = ['a']
+    keys = ['a'.dup]
     method = inst.compiled_method(keys, Object)
 
     keys.first.replace('b')
