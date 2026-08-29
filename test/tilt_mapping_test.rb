@@ -229,6 +229,12 @@ describe 'Tilt::Mapping' do
     end
   end
 
+  it "resolves absolute lazy constant names" do
+    @mapping.register_lazy '::Tilt::StringTemplate', 'tilt/string', 'string'
+
+    assert_equal Tilt::StringTemplate, @mapping['string']
+  end
+
   describe "#templates_for" do
     before do
       @mapping.register _Stub, 'a'
