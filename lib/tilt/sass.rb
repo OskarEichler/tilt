@@ -23,7 +23,7 @@ module Tilt
 
     begin
       require 'sass-embedded'
-    # :nocov:
+    # simplecov:disable
       require 'uri'
 
       ALLOWED_KEYS = (defined?(::Sass::Compiler) ? ::Sass::Compiler : ::Sass::Embedded).
@@ -73,7 +73,7 @@ module Tilt
         @options[:syntax] = :sass
         @options
       end
-    # :nocov:
+    # simplecov:enable
     end
   end
 

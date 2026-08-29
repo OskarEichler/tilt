@@ -138,10 +138,10 @@ module Tilt
       @cache = {}
     end
   end
-  # :nocov:
+  # simplecov:disable
   # TILT3: Remove Tilt::Cache
   deprecate_constant :Cache if respond_to?(:deprecate_constant, true)
-  # :nocov:
+  # simplecov:enable
 
   # Template Implementations ================================================
 

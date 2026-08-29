@@ -86,10 +86,10 @@ module Tilt
       end
       @engine = if SUPPORTS_KVARGS
         ::ERB.new(@data, trim_mode: trim, eoutvar: @outvar)
-      # :nocov:
+      # simplecov:disable
       else
         ::ERB.new(@data, options[:safe], trim, @outvar)
-      # :nocov:
+      # simplecov:enable
       end
     end
 

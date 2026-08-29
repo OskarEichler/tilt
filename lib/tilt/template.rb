@@ -257,9 +257,9 @@ module Tilt
         when Object
           Module === scope ? scope : scope.class
         else
-          # :nocov:
+          # simplecov:disable
           USE_BIND_CALL ? CLASS_METHOD.bind_call(scope) : CLASS_METHOD.bind(scope).call
-          # :nocov:
+          # simplecov:enable
         end
       end
 
@@ -325,13 +325,13 @@ module Tilt
       def _dup_string_if_frozen(string)
         +string
       end
-    # :nocov:
+    # simplecov:disable
     else
       def _dup_string_if_frozen(string)
         string.frozen? ? string.dup : string
       end
     end
-    # :nocov:
+    # simplecov:enable
 
     def process_arg(arg)
       if arg
@@ -350,9 +350,9 @@ module Tilt
     def read_template_file
       data = File.binread(file)
       # Set it to the default external (without verifying)
-      # :nocov:
+      # simplecov:disable
       data.force_encoding(Encoding.default_external) if Encoding.default_external
-      # :nocov:
+      # simplecov:enable
       data
     end
 
@@ -394,7 +394,7 @@ module Tilt
           method.bind_call(scope, locals, &block)
         end
       end
-    # :nocov:
+    # simplecov:disable
     else
       def evaluate_method(method, scope, locals, &block)
         if @fixed_locals
@@ -409,7 +409,7 @@ module Tilt
         end
       end
     end
-    # :nocov:
+    # simplecov:enable
 
     def compile_template_method(local_keys, scope_class=nil)
       source, offset = precompiled(local_keys)

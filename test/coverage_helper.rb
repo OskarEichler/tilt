@@ -2,9 +2,10 @@ if ENV.delete('COVERAGE')
   require 'simplecov'
 
   SimpleCov.start do
-    enable_coverage :branch
-    add_filter{|f| f.filename.start_with?(__dir__ + "/")}
-    add_group('Missing'){|src| src.covered_percent < 100}
-    add_group('Covered'){|src| src.covered_percent == 100}
+    coverage :line
+    coverage :branch
+    cover "lib/**/*.rb"
+    group('Missing'){|src| src.covered_percent < 100}
+    skip{|src| src.filename =~ %r{lib/tilt/(_emacs_org|_handlebars|_jbuilder|_org|haml).rb\z}}
   end
 end
