@@ -82,6 +82,21 @@ describe 'tilt/pipeline (options)' do
       assert_equal "11  \n\n", template.render
     end
   end
+
+  it "recomputes template options for every render" do
+    template_class = Class.new(Tilt::StaticTemplate) do
+      def _prepare_output
+        options.inspect
+      end
+    end
+    @mapping.register(template_class, 'opts')
+    pipeline = @mapping.register_pipeline('opts')
+    template = pipeline.new('opts' => {:x => 1}) { 'unused' }
+
+    assert_includes template.render, ':x=>1'
+    template.options['opts'].clear
+    refute_includes template.render, ':x=>1'
+  end
 end
 
 describe 'Tilt.register_pipeline' do
