@@ -439,6 +439,7 @@ module Tilt
     end
 
     def bind_compiled_method(method_source, offset, scope_class)
+      scope_class ||= Object
       path = compiled_path
       if path && scope_class.name
         path = path.dup
@@ -455,7 +456,7 @@ module Tilt
           method_source_prefix = "# frozen-string-literal: true\n"
           method_source = method_source.sub(/\A# frozen-string-literal: true\n/, '')
         end
-        method_source = "#{method_source_prefix}class #{scope_class.name}\n#{method_source}\nend"
+        method_source = "#{method_source_prefix}#{scope_class.is_a?(Class) ? 'class' : 'module'} #{scope_class.name}\n#{method_source}\nend"
 
         load_compiled_method(path, method_source)
       else

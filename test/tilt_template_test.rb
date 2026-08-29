@@ -4,6 +4,8 @@ require 'tmpdir'
 require 'pathname'
 
 _MockTemplate = Class.new(Tilt::Template)
+TiltCompiledPathModule = Module.new
+TiltCompiledPathModule::CONSTANT = 'module scope'
 
 describe "tilt/template" do
   it "needs a file or block" do
@@ -344,6 +346,25 @@ describe "tilt/template" do
       assert_equal content, File.read(tempfile)
 
       assert_equal false, File.file?("#{base}-1.rb")
+    end
+  end
+
+  it "supports module and default scopes with compiled paths" do
+    Dir.mktmpdir('tilt') do |dir|
+      module_path = File.join(dir, 'module')
+      inst = _SourceGeneratingMockTemplate.new(
+        compiled_path: module_path,
+        scope_class: TiltCompiledPathModule,
+        fixed_locals: '()'
+      ) { |t| '#{CONSTANT}' }
+
+      assert_equal 'module scope', inst.render(Object.new.extend(TiltCompiledPathModule))
+      assert_match(/\Amodule TiltCompiledPathModule/, File.read("#{module_path}.rb"))
+
+      default_path = File.join(dir, 'default')
+      inst = _SourceGeneratingMockTemplate.new(compiled_path: default_path) { |t| 'Hey' }
+      assert_kind_of UnboundMethod, inst.compiled_method([], nil)
+      assert_match(/\Aclass Object/, File.read("#{default_path}.rb"))
     end
   end
 
