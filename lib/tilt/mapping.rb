@@ -138,6 +138,7 @@ module Tilt
       LOCK.synchronize do
         @template_map = other.template_map.dup
         @lazy_map = other.lazy_map.dup
+        @lazy_map.each {|ext, choices| @lazy_map[ext] = choices.dup}
       end
     end
 
