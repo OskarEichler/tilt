@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'tilt/plain'
 require 'tilt/string'
 
 describe 'Tilt::Mapping' do
@@ -44,6 +45,15 @@ describe 'Tilt::Mapping' do
     # other doesn't leak to @mapping
     other.register(_Stub, 'baz')
     refute @mapping.registered?('baz')
+  end
+
+  it "duplicates lazy registrations independently" do
+    @mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'txt')
+    other = @mapping.dup
+    other.register_lazy('Tilt::PlainTemplate', 'tilt/plain', 'txt')
+
+    assert_equal Tilt::StringTemplate, @mapping['txt']
+    assert_equal Tilt::PlainTemplate, other['txt']
   end
 
   it "#extensions_for" do
