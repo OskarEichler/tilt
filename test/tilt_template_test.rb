@@ -360,11 +360,6 @@ describe "tilt/template" do
 
       assert_equal 'module scope', inst.render(Object.new.extend(TiltCompiledPathModule))
       assert_match(/\Amodule TiltCompiledPathModule/, File.read("#{module_path}.rb"))
-
-      default_path = File.join(dir, 'default')
-      inst = _SourceGeneratingMockTemplate.new(compiled_path: default_path) { |t| 'Hey' }
-      assert_kind_of UnboundMethod, inst.compiled_method([], nil)
-      assert_match(/\Aclass Object/, File.read("#{default_path}.rb"))
     end
   end
 

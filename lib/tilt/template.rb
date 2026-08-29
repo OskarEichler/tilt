@@ -439,7 +439,6 @@ module Tilt
     end
 
     def bind_compiled_method(method_source, offset, scope_class)
-      scope_class ||= Object
       path = compiled_path
       if path && scope_class.name
         path = path.dup
