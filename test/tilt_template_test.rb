@@ -162,7 +162,7 @@ describe "tilt/template" do
     assert inst.prepared?
   end
 
-  it "template_source with locals of strings" do
+  it "template_source with overlapping string/symbol locals" do
     inst = _SourceGeneratingMockTemplate.new { |t| 'Hey #{name}!' }
     assert_equal "Hey Joe!", inst.render(Object.new, 'name' => 'Joe', :name=>'Joe')
     assert inst.prepared?
