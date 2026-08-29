@@ -16,6 +16,18 @@ describe 'Tilt::Mapping' do
     refute @mapping.registered?('baz')
   end
 
+  it "normalizes extension case when registering and unregistering" do
+    @mapping.register(_Stub, 'HTML')
+    assert_equal _Stub, @mapping['page.html']
+    @mapping.unregister('Html')
+    refute @mapping.registered?('html')
+
+    @mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'TXT')
+    assert_equal Tilt::StringTemplate, @mapping['page.txt']
+    @mapping.unregister('Txt')
+    refute @mapping.registered?('txt')
+  end
+
   it "unregister" do
     @mapping.register(_Stub, 'foo', 'bar', 'baz')
     @mapping.unregister('baz')

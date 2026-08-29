@@ -182,7 +182,7 @@ module Tilt
 
       v = [class_name, file].freeze
       extensions.each do |ext|
-        LOCK.synchronize{@lazy_map[ext].unshift(v)}
+        LOCK.synchronize{@lazy_map[ext.to_s.downcase].unshift(v)}
       end
     end
 
@@ -204,7 +204,7 @@ module Tilt
       end
 
       extensions.each do |ext|
-        ext = ext.to_s
+        ext = ext.to_s.downcase
         LOCK.synchronize do
           @template_map[ext] = template_class
         end
@@ -259,7 +259,7 @@ module Tilt
     #   mapping['index.mt'] # => nil
     def unregister(*extensions)
       extensions.each do |ext|
-        ext = ext.to_s
+        ext = ext.to_s.downcase
         LOCK.synchronize do
           @template_map.delete(ext)
           @lazy_map.delete(ext)
