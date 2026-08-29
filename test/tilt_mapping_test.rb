@@ -266,6 +266,19 @@ describe 'Tilt::FinalizedMapping' do
     @mapping = mapping.finalized
   end
 
+  it "preserves explicit registrations and lazy priority" do
+    mapping = Tilt::Mapping.new
+    mapping.register_lazy('Tilt::PlainTemplate', 'tilt/plain', 'lazy')
+    mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'lazy')
+    mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'explicit')
+    mapping.register(_Stub, 'explicit')
+
+    finalized = mapping.finalized
+
+    assert_equal Tilt::StringTemplate, finalized['lazy']
+    assert_equal _Stub, finalized['explicit']
+  end
+
   it "does not allow modification" do
     refute @mapping.respond_to?(:register)
     refute @mapping.respond_to?(:register_lazy)
