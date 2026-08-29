@@ -26,4 +26,14 @@ checked_describe 'tilt/babel' do
       assert_match "React.createElement", template.render
     end
   end
+
+  it "forwards template options without overriding Babel's default filename" do
+    template = Tilt::BabelTemplate.new(
+      blacklist: ['es6.arrowFunctions']
+    ) { 'x => x' }
+
+    assert_match '=>', template.render
+    assert_equal ['es6.arrowFunctions'], template.options[:blacklist]
+    refute template.options.key?(:filename)
+  end
 end
