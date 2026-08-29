@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'tilt/plain'
 require 'tilt/string'
 
 describe 'Tilt::Mapping' do
@@ -254,6 +255,19 @@ describe 'Tilt::FinalizedMapping' do
     mapping.register_lazy(:NonExistant, 'tilt/nonexistant', 'str')
     mapping.register_lazy(:StringTemplate, 'tilt/string', 'string')
     @mapping = mapping.finalized
+  end
+
+  it "preserves explicit registrations and lazy priority" do
+    mapping = Tilt::Mapping.new
+    mapping.register_lazy('Tilt::PlainTemplate', 'tilt/plain', 'lazy')
+    mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'lazy')
+    mapping.register_lazy('Tilt::StringTemplate', 'tilt/string', 'explicit')
+    mapping.register(_Stub, 'explicit')
+
+    finalized = mapping.finalized
+
+    assert_equal Tilt::StringTemplate, finalized['lazy']
+    assert_equal _Stub, finalized['explicit']
   end
 
   it "does not allow modification" do
