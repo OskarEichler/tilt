@@ -16,6 +16,15 @@ describe "tilt/template" do
     assert_equal Encoding::US_ASCII, inst.data.encoding
   end
 
+  it "does not change the encoding of custom reader strings" do
+    source = 'hello'.encode(Encoding::ISO_8859_1)
+    inst = _MockTemplate.new(default_encoding: 'UTF-8') { source }
+
+    assert_equal Encoding::ISO_8859_1, source.encoding
+    assert_equal Encoding::UTF_8, inst.data.encoding
+    refute_same source, inst.data
+  end
+
   it "initializing with a file" do
     inst = _MockTemplate.new('foo.erb') {}
     assert_equal 'foo.erb', inst.file

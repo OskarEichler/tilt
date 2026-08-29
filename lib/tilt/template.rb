@@ -113,7 +113,7 @@ module Tilt
 
       if @data.respond_to?(:force_encoding)
         if default_encoding
-          @data = _dup_string_if_frozen(@data)
+          @data = @data.dup
           @data.force_encoding(default_encoding)
         end
 
