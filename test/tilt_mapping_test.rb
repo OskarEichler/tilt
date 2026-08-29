@@ -27,6 +27,9 @@ describe 'Tilt::Mapping' do
     assert_equal Tilt::StringTemplate, @mapping['page.txt']
     @mapping.unregister('Txt')
     refute @mapping.registered?('txt')
+
+    @mapping.register_pipeline('TXT.HTML')
+    assert_equal Tilt::Pipeline, @mapping['page.txt.html'].superclass
   end
 
   it "unregister" do
