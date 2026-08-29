@@ -209,6 +209,7 @@ describe "tilt/template" do
     # locals that follow it in sorted order
     inst = _SourceGeneratingMockTemplate.new { |t| 'Hey #{name}!' }
     assert_equal "Hey Jane!", inst.render(Object.new, :locals => [], :name => 'Jane')
+    assert_equal "Hey Jane!", inst.render(Object.new, 'locals' => [], 'name' => 'Jane')
     assert inst.prepared?
   end
 
