@@ -201,17 +201,15 @@ module Tilt
         key = [scope_class, locals_keys].freeze
       end
 
-      LOCK.synchronize do
-        if meth = @compiled_method[key]
-          return meth
-        end
+      if meth = LOCK.synchronize{@compiled_method[key]}
+        return meth
       end
       meth = compile_template_method(locals_keys, scope_class)
+      unless @fixed_locals
+        keys = locals_keys.map {|k| k.is_a?(String) ? k.dup.freeze : k}.freeze
+        key = @scope_class ? keys : [scope_class, keys].freeze
+      end
       LOCK.synchronize do
-        unless @fixed_locals
-          keys = locals_keys.map {|k| k.is_a?(String) ? k.dup.freeze : k}.freeze
-          key = @scope_class ? keys : [scope_class, keys].freeze
-        end
         @compiled_method[key] = meth
       end
       meth
