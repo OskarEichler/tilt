@@ -16,7 +16,7 @@ module Tilt
     def prepare
       hash = "TILT#{@data.hash.abs}"
       @freeze_string_literals = !!@options[:freeze]
-      @code = String.new("<<#{hash}.chomp\n#{@data}\n#{hash}")
+      @code = String.new("(<<#{hash})[0...-1]\n#{@data}\#{}\n#{hash}")
     end
 
     def precompiled_template(locals)
