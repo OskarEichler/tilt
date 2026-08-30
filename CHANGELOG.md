@@ -1,5 +1,6 @@
 ## master
 
+* Do not remove trailing \r in StringTemplate (OskarEichler, jeremyevans) (#44)
 * Fix SassTemplate to handle filenames with characters that need URL escaping when using sass-embedded (OskarEichler) (#42)
 * Recompute pipeline options on every render (OskarEichler) (#41)
 * Support :scope_class template option being a module in templates using compiled paths (OskarEichler) (#37)

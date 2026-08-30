@@ -136,7 +136,6 @@ describe 'tilt/string (compiled)' do
     assert_equal "Hello\r", template.render(_Scope.new)
   end
 
-
   it "template with '}'" do
     template = Tilt::StringTemplate.new { "Hello }" }
     assert_equal "Hello }", template.render

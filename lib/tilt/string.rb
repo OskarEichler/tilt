@@ -16,12 +16,8 @@ module Tilt
     def prepare
       hash = "TILT#{@data.hash.abs}"
       @freeze_string_literals = !!@options[:freeze]
-      data = @data
-      if data.end_with?("\r")
-        data = data[0...-1]
-        suffix = ' << "\r"'
-      end
-      @code = String.new("(<<#{hash})[0...-1]#{suffix}\n#{data}\n#{hash}")
+      # Heredoc changes \r\n to \n, chomp removes \r\n
+      @code = String.new("<<#{hash}.chomp\n#{@data}\r\r\n#{hash}")
     end
 
     def precompiled_template(locals)
