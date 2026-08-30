@@ -50,6 +50,11 @@ describe 'tilt/string' do
     assert_equal "Hello\nWorld!\n", template.render
   end
 
+  it "preserves a trailing carriage return" do
+    template = Tilt::StringTemplate.new { "Hello\r" }
+    assert_equal "Hello\r", template.render
+  end
+
   it "backtrace file and line reporting without locals" do
     template = Tilt::StringTemplate.new('test.str', 11) { data }
     begin
@@ -124,6 +129,11 @@ describe 'tilt/string (compiled)' do
   it "multiline templates" do
     template = Tilt::StringTemplate.new { "Hello\nWorld!\n" }
     assert_equal "Hello\nWorld!\n", template.render(_Scope.new)
+  end
+
+  it "preserves a trailing carriage return" do
+    template = Tilt::StringTemplate.new { "Hello\r" }
+    assert_equal "Hello\r", template.render(_Scope.new)
   end
 
 
