@@ -1,3 +1,13 @@
+## master
+
+* Fix SassTemplate to handle filenames with characters that need URL escaping when using sass-embedded (OskarEichler) (#42)
+* Recompute pipeline options on every render (OskarEichler) (#41)
+* Support :scope_class template option being a module in templates using compiled paths (OskarEichler) (#37)
+* Downcase extensions given to register, register_lazy, and unregister (OskarEichler) (#35)
+* Handle locals with locals string key in Template#render (OskarEichler) (#36)
+* Make Mapping#finalized no longer modify the mapping, and handle priorities correctly (OskarEichler, jeremyevans) (#33)
+* Make Mapping#{dup,clone} not share extension subhashes with receiver (OskarEichler) (#32)
+
 ## 2.9.0 (2026-08-17)
 
 * Add Herb template, registered for .herb and .html.erb (marcoroth) (#30)
