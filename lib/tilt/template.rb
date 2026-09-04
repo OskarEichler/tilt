@@ -31,7 +31,8 @@ module Tilt
     # A path ending in .rb that the template code will be written to, then
     # required, instead of being evaled.  This is useful for determining
     # coverage of compiled template code, or to use static analysis tools
-    # on the compiled template code.
+    # on the compiled template code. The directory containing the path must
+    # not be writable by untrusted users.
     attr_reader :compiled_path
 
     class << self
